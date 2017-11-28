@@ -1,5 +1,6 @@
 ## 1. create instance and key-pair on AWS
   login AWS, EC2 Dashboard
+  \n
   launch instance -->
   select Ubuntu Server 16.04 LTS (HVM), SSD Volume Type - ami-da05a4a0 -->
   select General purpose t2.micro (free tier eligible)  -->

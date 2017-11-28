@@ -1,26 +1,34 @@
 ## 1. create instance and key-pair on AWS
-  login AWS, EC2 Dashboard
-  \n
-  launch instance -->
-  select Ubuntu Server 16.04 LTS (HVM), SSD Volume Type - ami-da05a4a0 -->
-  select General purpose t2.micro (free tier eligible)  -->
-  click review and launch -->
-  after enter the instance, click Edit security groups
-  select Type as SSH, Source as my IP --> add Rule   
-  Type as HTTP, Source as anywhere
-  click review and launch
-  click launch
-  under select an existing key pair or create a new key pair select:
-  create a new key pair and name it as Django-app
-  and download key-pair and launch instance
 
-  once the instance state changed from initializing to running
-  select this instance, then click connect
+  login AWS, EC2 Dashboard
+ 
+  launch instance -->
+  
+  select Ubuntu Server 16.04 LTS (HVM), SSD Volume Type - ami-da05a4a0 -->
+  
+  select General purpose t2.micro (free tier eligible)  -->
+  
+  click review and launch -->
+  
+  after enter the instance, click Edit security groups
+  
+  select Type as SSH, Source as my IP --> add Rule   
+  
+  Type as HTTP, Source as anywhere
+  
+  click review and launch
+  
+  click launch
+  
+  under select an existing key pair or create a new key pair select: create a new key pair and name it as Django-app and download key-pair and launch instance, once the instance state changed from initializing to running, select this instance and then click connect.
 
 ## 2. connect to the instance from local machine
-### 1 copy the key to Desktop
+### 2.1 copy the key to Desktop
+  
   cd downloads/
+  
   mv Django-app.pem.txt ~/Desktop/
+  
   chmod 400 Django-app.pem.txt
   ssh -i "Django-app.pem.txt" ubuntu@ec2-54-174-99-110.compute-1.amazonaws.co
 m

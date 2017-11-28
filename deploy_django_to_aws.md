@@ -68,29 +68,36 @@ pip3 install gunicorn
 cd learning_users/
 sudo vim settings.py
 ```
-# insert
+insert ip into ALLOWED_HOSTS  
 ```
 ALLOWED_HOSTS = ['54.174.99.110'] # this ip is from my instance 
 ```
-# add the line below to the bottom of the file
+ add this line below to the bottom of the file
 
 ```
 STATIC_ROOT = os.path.join(BASE_DIR, "static/")
-\# comment this following line:
-# STATICFILES_DIRS = [STATIC_DIR,]  
 ```
-
+comment this following line:
+```
+# STATICFILES_DIRS = [STATIC_DIR,]  
 cd ..
 python manage.py collectstatic
+```
 
-Server and load balancer setting  
-# gunicorn: a Python WSGI HTTP Server for UNIX.
+## 3. Set up server and load balancer
+
+
+### 3.1 Server and load balancer setting  
+#### gunicorn: a Python WSGI HTTP Server for UNIX.####
+```
 gunicorn --bind 0.0.0.0:8000 learning_users.wsgi:application
-
+```
 stop by crl+c
 
+### 3.2 edit gunicorm.service
+```
 sudo vim /etc/systemd/system/gunicorn.service
-
+# add the following code inside it
 [Unit]
 Description=gunicorn daemon
 After=network.target
@@ -101,14 +108,18 @@ WorkingDirectory=/home/ubuntu/learning_users
 ExecStart=/home/ubuntu/learning_users/venv/bin/gunicorn --workers 3 --bind unix:/home/ubuntu/learning_users/learning_users.sock learning_users.wsgi:application
 [Install]
 WantedBy=multi-user.target
-
+```
 ESC:wq
 
+```
 sudo systemctl daemon-reload
 sudo systemctl start gunicorn
 sudo systemctl enable gunicorn
+```
+### 3.3 edit gunicorm.service
+```
 sudo vim /etc/nginx/sites-available/learning_users
-
+# add the following code inside it
 server {
   listen 80;
   server_name 54.174.99.110;
@@ -121,8 +132,12 @@ server {
       proxy_pass http://unix:/home/ubuntu/learning_users/learning_users.sock;
   }
 }
+```
 
+```
 sudo ln -s /etc/nginx/sites-available/learning_users /etc/nginx/sites-enabled
 sudo nginx -t
 sudo rm /etc/nginx/sites-enabled/default
 sudo service nginx restart
+```
+### start app at 54.174.99.110
